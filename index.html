@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#071c27">
+  <meta name="description" content="EcoEstoque - gestão de materiais escolares, reservas e empréstimos.">
+  <title>EcoEstoque | Painel de gestão</title>
+  <link rel="stylesheet" href="/frontend/styles.css">
+  <script src="/frontend/app.js" defer></script>
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Menu principal">
+      <div class="brand"><div class="brand-icon">E<span>●</span></div><div><strong>EcoEstoque</strong><small>Gestão inteligente</small></div></div>
+      <div class="menu-caption">ESPAÇO DE TRABALHO</div>
+      <nav id="main-nav" class="nav">
+        <button class="nav-link selected" data-view="painel" type="button"><span class="nav-symbol">◫</span> Visão geral</button>
+        <button class="nav-link" data-view="materiais" type="button"><span class="nav-symbol">▤</span> Materiais</button>
+        <button class="nav-link" data-view="usuarios" type="button"><span class="nav-symbol">♙</span> Usuários</button>
+        <button class="nav-link" data-view="reservas" type="button"><span class="nav-symbol">▣</span> Reservas</button>
+        <button class="nav-link" data-view="emprestimos" type="button"><span class="nav-symbol">⇄</span> Empréstimos</button>
+      </nav>
+      <div class="sidebar-bottom">
+        <div class="help-card"><div class="help-icon">✦</div><strong>Organização sem complicação.</strong><p>Materiais, solicitações e devoluções no mesmo lugar.</p></div>
+        <div class="sidebar-version">ECOESTOQUE • PROJETO INTEGRADO<br>POO + BD + DWS</div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <div class="breadcrumbs">ESCOLA <span>/</span> <strong id="current-page">VISÃO GERAL</strong></div>
+        <div class="top-actions"><span class="online-dot" aria-hidden="true"></span><span id="connection-status">Verificando conexão...</span><div class="avatar" title="Projeto escolar">EE</div></div>
+      </header>
+
+      <div id="alert-bar" class="alert-bar hidden" role="status"></div>
+
+      <section id="view-painel" class="view active" aria-labelledby="main-title">
+        <div class="hero">
+          <div class="hero-text"><div class="eyebrow"><span class="eyebrow-line"></span> PLATAFORMA DE GESTÃO ESCOLAR</div><h1 id="main-title">Tudo em seu <em>devido lugar.</em></h1><p>Gerencie o acervo da escola, organize reservas e acompanhe empréstimos em um painel simples e eficiente.</p><div class="hero-buttons"><button class="btn btn-primary" type="button" data-action="novo-emprestimo">+ Novo empréstimo</button><button class="btn btn-ghost" type="button" data-view="materiais">Ver materiais →</button></div></div>
+          <div class="hero-art" aria-hidden="true"><div class="halo halo-one"></div><div class="halo halo-two"></div><div class="hero-package">▣</div><div class="hero-spark one">✦</div><div class="hero-spark two">✧</div></div>
+        </div>
+        <div id="demo-notice" class="demo-notice hidden"><span>◉</span><span><strong>Modo demonstração.</strong> Os registros ficam em um arquivo JSON local; nada é enviado ao MySQL.</span><button class="text-button" id="reset-demo" type="button">Reiniciar dados</button></div>
+        <div class="section-title"><div><div class="label-overline">PANORAMA</div><h2>Resumo do estoque</h2></div><span class="muted" id="updated-at">Atualizando...</span></div>
+        <div class="stats-grid">
+          <div class="stat-card"><div class="stat-icon teal">▤</div><div class="stat-label">Materiais cadastrados</div><div id="stat-materiais" class="stat-value">—</div><div class="stat-foot">Tipos de materiais no acervo</div></div>
+          <div class="stat-card"><div class="stat-icon blue">◎</div><div class="stat-label">Unidades disponíveis</div><div id="stat-unidades" class="stat-value">—</div><div class="stat-foot">Prontas para empréstimo</div></div>
+          <div class="stat-card"><div class="stat-icon orange">⇄</div><div class="stat-label">Empréstimos ativos</div><div id="stat-emprestimos" class="stat-value">—</div><div class="stat-foot">Aguardando devolução</div></div>
+          <div class="stat-card"><div class="stat-icon purple">▣</div><div class="stat-label">Reservas pendentes</div><div id="stat-reservas" class="stat-value">—</div><div class="stat-foot">Solicitações registradas</div></div>
+        </div>
+        <div class="dashboard-grid">
+          <section class="panel"><div class="panel-head"><div><div class="label-overline">INVENTÁRIO</div><h3>Materiais em destaque</h3></div><button class="text-button" data-view="materiais" type="button">Ver todos →</button></div><div id="featured-materials" class="featured-materials"><div class="empty">Carregando materiais...</div></div></section>
+          <section class="panel recent-panel"><div class="panel-head"><div><div class="label-overline">ATIVIDADE</div><h3>Empréstimos recentes</h3></div></div><div id="recent-loans" class="recent-list"><div class="empty">Carregando empréstimos...</div></div></section>
+        </div>
+      </section>
+
+      <section id="view-materiais" class="view" aria-labelledby="title-materiais">
+        <div class="page-head"><div><div class="label-overline">INVENTÁRIO</div><h1 id="title-materiais">Materiais</h1><p>Visualize quantidades, cadastre itens e acompanhe o estoque.</p></div><button class="btn btn-primary" data-action="novo-material" type="button">+ Cadastrar material</button></div>
+        <div class="panel table-panel"><div class="table-tools"><label class="search-box">⌕ <input id="search-materiais" type="search" placeholder="Buscar materiais..." aria-label="Buscar materiais"></label><span id="materiais-count" class="muted">—</span></div><div class="table-scroll"><table><thead><tr><th>MATERIAL</th><th>TOTAL</th><th>DISPONÍVEL</th><th>ESTOQUE</th></tr></thead><tbody id="table-materiais"></tbody></table></div></div>
+      </section>
+
+      <section id="view-usuarios" class="view" aria-labelledby="title-usuarios">
+        <div class="page-head"><div><div class="label-overline">PESSOAS</div><h1 id="title-usuarios">Usuários</h1><p>Alunos, professores e administradores cadastrados.</p></div><button class="btn btn-primary" data-action="novo-usuario" type="button">+ Cadastrar usuário</button></div>
+        <div class="panel table-panel"><div class="table-tools"><label class="search-box">⌕ <input id="search-usuarios" type="search" placeholder="Buscar usuários..." aria-label="Buscar usuários"></label><span id="usuarios-count" class="muted">—</span></div><div class="table-scroll"><table><thead><tr><th>NOME</th><th>TIPO</th><th>MATRÍCULA</th><th>E-MAIL</th></tr></thead><tbody id="table-usuarios"></tbody></table></div></div>
+      </section>
+
+      <section id="view-reservas" class="view" aria-labelledby="title-reservas">
+        <div class="page-head"><div><div class="label-overline">SOLICITAÇÕES</div><h1 id="title-reservas">Reservas</h1><p>Registre solicitações de materiais para retirada futura.</p></div><button class="btn btn-primary" data-action="nova-reserva" type="button">+ Nova reserva</button></div>
+        <div class="hint-panel">ⓘ Reservas <strong>pendentes</strong> são solicitações: ainda não separam nem descontam unidades do estoque.</div>
+        <div class="panel table-panel"><div class="table-scroll"><table><thead><tr><th>Nº</th><th>USUÁRIO</th><th>MATERIAL</th><th>RETIRADA PREVISTA</th><th>STATUS</th></tr></thead><tbody id="table-reservas"></tbody></table></div></div>
+      </section>
+
+      <section id="view-emprestimos" class="view" aria-labelledby="title-emprestimos">
+        <div class="page-head"><div><div class="label-overline">CIRCULAÇÃO</div><h1 id="title-emprestimos">Empréstimos</h1><p>Registre saídas de materiais e confirme devoluções em bom estado.</p></div><div class="page-actions"><button class="btn btn-outline" data-action="nova-devolucao" type="button">↩ Registrar devolução</button><button class="btn btn-primary" data-action="novo-emprestimo" type="button">+ Novo empréstimo</button></div></div>
+        <div class="panel table-panel"><div class="table-scroll"><table><thead><tr><th>Nº</th><th>USUÁRIO</th><th>MATERIAL</th><th>DEVOLUÇÃO PREVISTA</th><th>STATUS</th><th>AÇÃO</th></tr></thead><tbody id="table-emprestimos"></tbody></table></div></div>
+      </section>
+      <footer>EcoEstoque © 2026 · Projeto Integrado de Desenvolvimento de Sistemas · Versão acadêmica</footer>
+    </main>
+  </div>
+
+  <dialog id="modal" aria-labelledby="modal-title"><div class="modal-wrap"><div class="modal-header"><div><div class="label-overline">ECOESTOQUE</div><h2 id="modal-title">Novo registro</h2></div><button id="modal-close" class="close-button" type="button" aria-label="Fechar janela">×</button></div><div id="modal-content"></div></div></dialog>
+  <div id="toast" class="toast hidden" role="status" aria-live="polite"></div>
+</body>
+</html>
